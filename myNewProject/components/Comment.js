@@ -45,9 +45,9 @@ const styles = StyleSheet.create({
   messageBoxSent: {
     marginLeft: "auto",
     marginRight: 5,
-    marginTop: 10,
-    width: "70%",
+    marginTop: 7,
     padding: 16,
+    height:"80%",
     backgroundColor: "rgba(0, 0, 0, 0.05)",
     borderRadius: 6,
   },

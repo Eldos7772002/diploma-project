@@ -1,5 +1,9 @@
 {
   "dependencies": {
+    "@react-navigation/native": "^6.1.14",
+    "@react-navigation/native-stack": "^6.9.22",
+    "react": "^18.2.0",
+    "react-native": "^0.73.5",
     "react-native-fix-image": "^2.1.0"
   }
 }

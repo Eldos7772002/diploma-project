@@ -25,7 +25,7 @@ const Main = () => {
       size="large"
       color="#FF6C00"
       style={{
-        marginTop: "100%",
+        marginTop: "70%",
       }}
     />
   ) : (
