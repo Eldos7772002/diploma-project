@@ -9,6 +9,7 @@ import { authSignOutUser } from "../../redux/auth/authOperations";
 import { PublicPosts } from "../../components/PublicPosts";
 import { getAllPosts } from "../../redux/posts/postsOperations";
 
+
 const HomeScreen = ({ navigation, route }) =>
 {
     const { allItems: allPosts } = useSelector((state) => state.posts);
@@ -52,8 +53,10 @@ const HomeScreen = ({ navigation, route }) =>
         <>
             <SafeAreaView style={styles.container}>
                 <View style={{ height: 30, borderBottomColor: "#0000004D", borderWidth: 0.5, borderColor: '#ffffff', flexDirection: 'row', alignItems: 'center' }}>
-                    <Text style={{ fontFamily: 'Roboto-Medium', fontSize: 17, lineHeight: 22, color: '#212121', letterSpacing: -0.408, marginLeft: "45%"}}>Posts</Text>
-                <TouchableOpacity onPress={signOut} style={{marginLeft: '38%', bottom: 3}}>
+                    <Text style={{ fontFamily: 'Roboto-Medium', fontSize: 15, lineHeight: 20, color: '#212121', letterSpacing: -0.408, marginLeft: "45%"}}>Посты</Text>
+                
+                   
+                <TouchableOpacity onPress={signOut} style={{marginLeft: '15%', bottom: 3}}>
                     <Feather name="log-out" size={24} color="#BDBDBD"/>
                 </TouchableOpacity>
                 </View>

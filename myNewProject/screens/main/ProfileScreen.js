@@ -98,7 +98,7 @@ const  ProfileScreen = ({ navigation }) =>
             </TouchableOpacity>
           <Text style={styles.titleText}>{nickname}</Text>
             {posts.length === 0 ? (
-              <Text >You don't have any posts yet.</Text>
+              <Text >У вас пока нет никаких сообщений</Text>
             ) : (
               <SafeAreaView style={{width: '100%'}}>
                   <FlatList

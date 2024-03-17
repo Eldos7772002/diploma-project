@@ -1,36 +1,26 @@
 import React, { useState, useEffect } from "react";
-
 import { StyleSheet, View, ImageBackground, Text, TextInput, TouchableOpacity, Dimensions, KeyboardAvoidingView, TouchableWithoutFeedback, Keyboard, Image, Alert } from "react-native";
-
 import { useDispatch } from 'react-redux';
-
 import uuid from "react-native-uuid";
-
 import * as ImagePicker from 'expo-image-picker';
 import * as MediaLibrary from "expo-media-library";
-
 import { AntDesign } from '@expo/vector-icons';
-
 import { storage } from "../../firebase/config";
-import
-  {
-  getDownloadURL,
-  ref,
-  uploadBytesResumable,
-} from "firebase/storage";
-
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { authSignUpUser } from "../../redux/auth/authOperations";
 
+// Начальное состояние формы регистрации
 const initialState = {
   nickname: "",
   email: "",
   password: "",
   userPhoto: "",
 };
-export default function RegistrationScreen({ navigation })
-{
+
+export default function RegistrationScreen({ navigation }) {
   const { height, width } = Dimensions.get('window');
 
+  // Состояния компонента
   const [isSecureEntry, setSecureEntry] = useState(true);
   const [state, setState] = useState(initialState);
   const [profileImage, setProfileImage] = useState(null);
@@ -41,33 +31,32 @@ export default function RegistrationScreen({ navigation })
     password: false,
   });
 
+  // Redux
   const dispatch = useDispatch();
 
-  const onFocus = (inputName) =>
-  {
+  // Функции для обработки фокуса и размытия полей ввода
+  const onFocus = (inputName) => {
     setIsFocused({
       [inputName]: true
     })
   }
 
-  const onBlur = (inputName) =>
-  {
+  const onBlur = (inputName) => {
     setIsFocused({
       [inputName]: false
     })
   }
 
-  useEffect(() =>
-  {
+  // Запрос разрешений на доступ к библиотеке медиа
+  useEffect(() => {
     (async () => {
-      const mediaLibraryPermission =
-        await MediaLibrary.requestPermissionsAsync();
+      const mediaLibraryPermission = await MediaLibrary.requestPermissionsAsync();
       setLibraryPermission(mediaLibraryPermission.status === "granted");
     })();
   }, []);
 
-  const PickProfileImage = async () =>
-  {
+  // Выбор профильного изображения из галереи
+  const PickProfileImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
@@ -75,7 +64,7 @@ export default function RegistrationScreen({ navigation })
       quality: 1
     });
     if (result.canceled) {
-      Alert.alert('User avatar is required')
+      Alert.alert('Выберите изображение');
     }
 
     if (!result.canceled) {
@@ -88,6 +77,7 @@ export default function RegistrationScreen({ navigation })
     }
   }
 
+  // Загрузка изображения на сервер
   const uploadPhotoToServer = async (photo) => {
     try {
       const id = uuid.v4();
@@ -95,25 +85,23 @@ export default function RegistrationScreen({ navigation })
       const resp = await fetch(photo);
       const file = await resp.blob();
       await uploadBytesResumable(storageRef, file);
-      // console.log(upload);
       const link = await getDownloadURL(ref(storage, `images/${id}`));
       return link;
     } catch (error) {
       Alert.alert(error.message);
-      // console.log(error.message);
       return;
     }
   };
 
-  const RemoveProfileImage = () =>
-  {
-    setProfileImage(false)
+  // Удаление профильного изображения
+  const RemoveProfileImage = () => {
+    setProfileImage(false);
   }
 
-  const handleSubmit = () =>
-  {
-    if (!state.email && !state.nickname && !state.userPhoto && !state.password ) {
-      return Alert.alert('All fields are required')
+  // Обработка отправки формы регистрации
+  const handleSubmit = () => {
+    if (!state.email || !state.nickname || !state.userPhoto || !state.password) {
+      return Alert.alert('Все поля обязательны для заполнения');
     }
     dispatch(authSignUpUser(state));
     setState(initialState);
@@ -133,7 +121,7 @@ export default function RegistrationScreen({ navigation })
           height={height}
           width={width}
           preserveAspectRatio='xMidYWid slice'
-          source={require("../../assets/images/signUp-bg.jpg")}
+          source={require("../../assets/images/signUp.jpg")}
         >
         <View style={styles.innerBox} height={height / 1.55}>
             {profileImage ?
@@ -153,11 +141,11 @@ export default function RegistrationScreen({ navigation })
                 </View>
               </TouchableOpacity>
             }
-            <Text style={styles.titleText}>Create Account</Text>
+            <Text style={styles.titleText}>Создать аккаунт</Text>
                 <View style={styles.form}>
                   <TextInput
                     style={isFocused.nickname ? [styles.input, styles.inputFocused] : styles.input}
-                    placeholder="Login"
+                    placeholder="Логин"
                     placeholderTextColor="#BDBDBD"
                     textContentType={"username"}
                     value={state.nickname}
@@ -184,7 +172,7 @@ export default function RegistrationScreen({ navigation })
               <View>
                   <TextInput
                     style={isFocused.password ? [styles.input, styles.inputFocused] : {...styles.input, position: 'relative'}}
-                    placeholder="Password"
+                    placeholder="Пароль"
                     placeholderTextColor="#BDBDBD"
                     textContentType={"password"}
                     secureTextEntry={isSecureEntry}
@@ -197,14 +185,14 @@ export default function RegistrationScreen({ navigation })
                     onBlur={() => onBlur('password')}
                 />
                 <TouchableOpacity onPress={() => setSecureEntry((prev) => !prev)}>
-                  <Text style={styles.textSecure}>{isSecureEntry ? "Show" : "Hide"}</Text></TouchableOpacity>
+                  <Text style={styles.textSecure}>{isSecureEntry ? "Показать" : "Скрыть"}</Text></TouchableOpacity>
               </View>
             <View style={styles.btnBox}>
                 <TouchableOpacity style={styles.btn} onPress={handleSubmit}>
-                <Text style={styles.btnText}>Sign up</Text>
+                <Text style={styles.btnText}>Зарегистрироваться</Text>
                 </TouchableOpacity>
                 <TouchableOpacity>
-                  <Text onPress={() => navigation.navigate("Login")} style={styles.text}>Already have an account? Sign in</Text>
+                  <Text onPress={() => navigation.navigate("Login")} style={styles.text}>У вас уже есть учетная запись? Войти</Text>
                 </TouchableOpacity>
             </View>
           </View>
@@ -215,15 +203,16 @@ export default function RegistrationScreen({ navigation })
   );
 }
 
+// Стили компонента
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-},
+  },
   image: {
     flex: 1,
     resizeMode: "cover",
     justifyContent: "flex-end",
-},
+  },
   innerBox: {
     position: "relative",
     alignItems: 'center',
@@ -259,11 +248,11 @@ const styles = StyleSheet.create({
     fontSize: 30,
     lineHeight: 35,
     letterSpacing: 1,
-},
+  },
   form: {
     width: "100%",
     paddingHorizontal: 20,
-},
+  },
   input: {
     marginTop: 16,
     height: 50,
@@ -301,7 +290,7 @@ const styles = StyleSheet.create({
     lineHeight: 19,
     textAlign: 'center',
     padding: 16,
-    },
+  },
   text: {
     marginTop: 18,
     fontFamily: "Roboto-Regular",
@@ -311,5 +300,3 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   }
 });
-
-

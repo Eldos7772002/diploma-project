@@ -271,7 +271,7 @@ const CreatePostsScreen = ({ navigation }) =>
                     <View style={styles.postForm}>
                             <TextInput
                                 style={isFocused.title ? { ...styles.input, borderBottomColor: '#FF6C00'} : {...styles.input, fontFamily: "Roboto-Medium" }}
-                                placeholder="Title..."
+                                placeholder="Текст"
                                 placeholderTextColor="#BDBDBD"
                                 inputmode={'text'}
                                 value={title}
@@ -282,7 +282,7 @@ const CreatePostsScreen = ({ navigation }) =>
                             <View style={{position: 'relative'}}>
                                 <TextInput
                                     style={isFocused.place ? {...styles.input, borderBottomColor: '#FF6C00', marginTop: 32, paddingLeft: 24 } : { ...styles.input, marginTop: 32, paddingLeft: 24 }}
-                                    placeholder="Location..."
+                                    placeholder="Локация"
                                     placeholderTextColor="#BDBDBD"
                                     textContentType={"location"}
                                     value={inputLocation}
@@ -299,12 +299,12 @@ const CreatePostsScreen = ({ navigation }) =>
                                 style={{...styles.btn, backgroundColor: '#FF6C00'}}
                                 onPress={() => handleSubmit()}
                             >
-                                <Text style={{...styles.btnText, color: "#ffffff"}}>Post</Text>
+                                <Text style={{...styles.btnText, color: "#ffffff"}}>Пост</Text>
                             </TouchableOpacity> :                             <TouchableOpacity
                                 style={styles.btn}
                                 onPress={() => handleSubmit()}
                             >
-                                <Text style={styles.btnText}>Post</Text>
+                                <Text style={styles.btnText}>Готово</Text>
                             </TouchableOpacity>}
 
                             {photo !== null || title.length >= 1 || location.length >= 1 || inputLocation.length >= 1 ?

@@ -67,7 +67,7 @@ const CommentsScreen = ({ route }) => {
         <SafeAreaView style={styles.bottomBox}>
           {comments.length === 0 ? (
             <Text style={styles.error}>
-              There are no comments under this post yet.
+            Комментариев под этим постом пока нет.
             </Text>
           ) : (
             <FlatList
@@ -83,7 +83,7 @@ const CommentsScreen = ({ route }) => {
         </SafeAreaView>
         <View style={styles.commentForm}>
           <TextInput
-            placeholder="Add a comment"
+            placeholder="Написать комменатарии"
             value={message}
             onChangeText={(text) => setMessage(text)}
             style={{...styles.input, marginHorizontal: 16}}
